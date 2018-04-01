@@ -1,0 +1,21 @@
+#!/usr/bin/env node
+const colors = require('colors')
+const CoreComponents = require('../lib/CoreComponents')
+const Watchers = require('../lib/Watchers')
+const CLI = require('../lib/CLI')
+
+const coreComponents = new CoreComponents()
+const watchers = new Watchers()
+const cli = new CLI({coreComponents, watchers})
+
+watchers.start()
+cli.start()
+
+process.on('SIGTERM', () => {
+  process.exit()
+})
+
+process.on('exit', () => {
+  console.log('\n')
+  console.log('goodbye')
+})

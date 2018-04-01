@@ -2,16 +2,21 @@
   "name": "peace2",
   "version": "0.0.1",
   "description": "",
-  "main": "run.js",
+  "main": "bin/peace",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "bin/peace"
   },
-  "author": "",
+  "author": "Derek Ekins <derek@featurist.co.uk>",
   "license": "ISC",
   "dependencies": {
     "colors": "^1.2.1",
     "glob": "^7.1.2",
     "glob-watcher": "^5.0.1",
-    "mocha": "^5.0.5"
+    "mocha": "^5.0.5",
+    "vorpal": "^1.12.0"
+  },
+  "devDependencies": {
+    "stream-splitter": "^0.3.2",
+    "trytryagain": "^1.2.0"
   }
 }

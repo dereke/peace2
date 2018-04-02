@@ -2,9 +2,11 @@
   "name": "peace2",
   "version": "0.0.1",
   "description": "",
-  "main": "bin/peace",
   "scripts": {
     "test": "bin/peace"
+  },
+  "bin": {
+    "peace": "bin/peace"
   },
   "author": "Derek Ekins <derek@featurist.co.uk>",
   "license": "ISC",

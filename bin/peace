@@ -1,12 +1,22 @@
 #!/usr/bin/env node
 const colors = require('colors')
+const path = require('path')
 const CoreComponents = require('../lib/CoreComponents')
 const Watchers = require('../lib/Watchers')
+const Runner = require('../lib/Runner')
 const CLI = require('../lib/CLI')
+const defaults = require('../peace-defaults')
+let config = defaults
+try{
+  const customConfig = require(path.join(process.cwd(), 'peace-config'))
+  config = Object.assign(defaults, customConfig)
+} catch(e) {
+}
 
 const coreComponents = new CoreComponents()
-const watchers = new Watchers()
-const cli = new CLI({coreComponents, watchers})
+const watchers = new Watchers({config})
+const runner = new Runner({config})
+const cli = new CLI({coreComponents, watchers, runner})
 
 watchers.start()
 cli.start()

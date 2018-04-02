@@ -13,12 +13,9 @@ try{
 } catch(e) {
 }
 
-const coreComponents = new CoreComponents()
-const watchers = new Watchers({config})
-const runner = new Runner({config})
-const cli = new CLI({coreComponents, watchers, runner})
+const coreComponents = new CoreComponents({config, Runner, Watchers})
+const cli = new CLI({coreComponents})
 
-watchers.start()
 cli.start()
 
 process.on('SIGTERM', () => {

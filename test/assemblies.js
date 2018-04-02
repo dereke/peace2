@@ -1,12 +1,28 @@
+const config = require('../peace-defaults')
 const DeveloperCharacter = require('./characters/DeveloperCharacter')
 const CoreComponents = require('../lib/CoreComponents')
 const characters = {
   developer: DeveloperCharacter
 }
+const EventEmitter = require('events')
+const runMocha = require('../lib/runMocha')
+
+class InProcessRunner {
+  constructor() {
+    this.results = []
+  }
+
+  run(files) {
+    return runMocha({files})
+  }
+}
+class MemoryWatcher extends EventEmitter {
+  start() {}
+}
 
 class Assembly {
   constructor () {
-    this.coreComponents = new CoreComponents()
+    this.coreComponents = new CoreComponents({config, Runner: InProcessRunner, Watchers: MemoryWatcher})
   }
 
   async createCharacter(type, name) {

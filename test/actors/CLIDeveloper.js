@@ -30,4 +30,21 @@ module.exports = class CLIDeveloper {
     this.cli.stdin.pause()
     this.cli.kill()
   }
+
+  setupSuccessfulTest() {
+    this.tests = ['test/fixtures/thatWorksSpec.js']
+  }
+
+  async runAllTests() {
+    this.cli.stdin.write(`test ${this.tests.join(', ')}\n`)
+  }
+
+  assertTestResults(result) {
+    const expectedText = {
+      Successful: '1 passing'
+    }[result]
+    return retry(() => {
+      assert(this.history.find(entry => entry.indexOf(expectedText) !== -1), `Test suite should have been: ${result}`)
+    })
+  }
 }

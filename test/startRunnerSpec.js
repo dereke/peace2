@@ -10,5 +10,12 @@ feature('start runner', assemblies, () => {
     await developer.ui.assertCLIState('finished')
   })
 
-  scenario('something else')
+  scenario('can run a passing test', async assembly => {
+    const developer = await assembly.createCharacter('developer', 'Dave')
+    await developer.ui.setupSuccessfulTest()
+    await developer.ui.startCLI()
+    await developer.ui.runAllTests()
+    await developer.ui.assertTestResults('Successful')
+    await developer.ui.exitCLI()
+  })
 })

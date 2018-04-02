@@ -1,3 +1,4 @@
 {
-  "ui": "interfaces/hex"
+  "ui": "interfaces/hex",
+  "testPatternIgnore": "test/fixtures/**/*Spec.js"
 }

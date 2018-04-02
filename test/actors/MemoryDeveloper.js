@@ -16,5 +16,19 @@ module.exports = class MemoryDeveloper {
   exitCLI() {
     this.coreComponents.stop()
   }
-}
 
+  setupSuccessfulTest() {
+    this.tests = ['test/fixtures/thatWorksSpec.js']
+  }
+
+  async runAllTests() {
+    this.results = await this.coreComponents.run(this.tests)
+  }
+
+  assertTestResults(result) {
+    const testState = {
+      Successful: 'passed'
+    }[result]
+    assert(this.results.results.find(test => test.state === testState), `Test suite should have been: ${result}`)
+  }
+}

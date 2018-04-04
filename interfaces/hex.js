@@ -36,12 +36,12 @@ module.exports = function (suite) {
         title,
         file,
         fn: function () {
-          return assemblies.map(Assembly => {
+          return assemblies.map((CreateAssembly, title) => {
             return common.suite.create({
-              title: Assembly.name,
+              title,
               file,
               fn: function () {
-                this.Assembly = Assembly
+                this.CreateAssembly = CreateAssembly
                 return fn.call(this)
               }
             })
@@ -79,7 +79,7 @@ module.exports = function (suite) {
     context.scenario = function (title, fn) {
       var suite = suites[0];
       var testFn = async function () {
-        const assembly = new suite.Assembly()
+        const assembly = suite.CreateAssembly()
         if (typeof assembly.start === 'function') {
           await assembly.start()
         }

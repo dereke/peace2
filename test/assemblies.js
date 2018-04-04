@@ -1,11 +1,11 @@
 const config = require('../peace-defaults')
-const DeveloperCharacter = require('./characters/DeveloperCharacter')
+const MemoryDeveloper = require('./actors/MemoryDeveloper')
+const CLIDeveloper = require('./actors/CLIDeveloper')
 const CoreComponents = require('../lib/CoreComponents')
-const characters = {
-  developer: DeveloperCharacter
-}
 const EventEmitter = require('events')
 const runMocha = require('../lib/runMocha')
+
+const DoubleHexagon = require('./DoubleHexagon.js')
 
 class InProcessRunner {
   constructor() {
@@ -21,19 +21,18 @@ class MemoryWatcher extends EventEmitter {
 }
 
 class Assembly {
-  constructor () {
+  constructor ({actors}) {
+    this.actors = actors
     this.coreComponents = new CoreComponents({config, Runner: InProcessRunner, Watchers: MemoryWatcher})
   }
 
-  async createCharacter(type, name) {
-    const character = new characters[type]({
-      uiType: this.uiType,
+  async createActor(type, name) {
+    const actor = new this.actors[type]({
       name,
       coreComponents: this.coreComponents
     })
-    await character.start()
 
-    return character
+    return actor
   }
 
   async start () {
@@ -41,26 +40,13 @@ class Assembly {
   }
 }
 
-class MemoryAssembly extends Assembly {
-  static get name () {
-    return 'memory'
-  }
+const hex = new DoubleHexagon(Assembly)
+hex.registerAssembly('memory', assembly => {
+  assembly.registerActor('developer', MemoryDeveloper)
+})
 
-  get uiType() {
-    return 'memory'
-  }
-}
+hex.registerAssembly('cli', assembly => {
+  assembly.registerActor('developer', CLIDeveloper)
+})
 
-
-class CLIAssembly extends Assembly {
-  static get name () {
-    return 'cli'
-  }
-
-  get uiType() {
-    return 'cli'
-  }
-}
-
-
-module.exports = [MemoryAssembly, CLIAssembly]
+module.exports = hex

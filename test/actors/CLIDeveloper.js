@@ -17,12 +17,13 @@ module.exports = class CLIDeveloper {
 
   assertCLIState(state) {
     const expectedPrompt = {
-      ready: 'peace> ',
-      finished: 'goodbye\n'
+      ready: 'peace>',
+      finished: 'goodbye'
     }[state]
 
     return retry(() => {
-      assert(this.history.indexOf(expectedPrompt) !== -1, `expected state ${state}`)
+      const expectedEntry = this.history.find(entry => entry.indexOf(expectedPrompt) !== -1)
+      assert(expectedEntry, `expected state ${state}`)
     })
   }
 

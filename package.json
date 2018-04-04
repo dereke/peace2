@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "",
   "scripts": {
-    "test": "bin/peace"
+    "start": "bin/peace",
+    "test": "mocha --ui interfaces/hex --no-timeouts"
   },
   "bin": {
     "peace": "bin/peace"
